@@ -1,0 +1,434 @@
+/* Основные стили */
+* {
+    touch-action: manipulation;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Arial', sans-serif;
+    background: #212b36;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+body.light-theme {
+    background: #ffffff;
+}
+
+/* Контейнер приложения */
+#app {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Обложка */
+.cover {
+    width: 100%;
+    max-width: 325px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.cover img {
+    width: 100%;
+    height: 325px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.3s ease;
+    object-fit: cover;
+}
+
+.cover img.active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+}
+
+.cover img.exit-next {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.cover img.exit-prev {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.cover img:hover {
+    transform: scale(1.03);
+}
+
+body.light-theme .cover img {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Плеер */
+.player {
+    background: rgba(31, 41, 55, 0.9);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 350px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    animation: slideUp 0.5s ease forwards;
+    position: relative;
+    overflow: hidden;
+}
+
+body.light-theme .player {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    color: #000000;
+}
+
+.player:hover {
+    transform: translateY(-2px);
+}
+
+/* Кнопка "Поделиться" */
+.share-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(31, 41, 55, 0.8);
+    border: none;
+    color: #a0aec0;
+    font-size: 25px;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body.light-theme .share-btn {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.share-btn:hover {
+    transform: scale(1.05);
+}
+
+.share-btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Кнопка "Режим тишины" */
+.quiet-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(31, 41, 55, 0.8);
+    border: none;
+    color: #a0aec0;
+    font-size: 25px;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body.light-theme .quiet-btn {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.quiet-btn:hover {
+    transform: scale(1.05);
+}
+
+.quiet-btn.active {
+    color: inherit;
+}
+
+.quiet-btn i {
+    position: relative;
+}
+
+.quiet-btn i::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 20px;
+    height: 4px;
+    background-color: #000000;
+    border-radius: 2px;
+    transform: rotate(-45deg);
+    transform-origin: center;
+    opacity: 0;
+    transition: width 0.4s cubic-bezier(0.19, 1, 0.22, 1),
+                opacity 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    pointer-events: none;
+}
+
+.quiet-btn.active i::after {
+    width: 100%;
+    opacity: 1;
+}
+
+body.light-theme .quiet-btn i::after {
+    background-color: rgba(30, 30, 30, 0.7);
+}
+
+.quiet-btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Информация о треке */
+.track-info {
+    margin-top: 20px;
+}
+
+.track-info h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 8px 0;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.track-info h2.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.track-info h2.exit {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+body.light-theme .track-info h2 {
+    color: #000000;
+}
+
+.track-info p {
+    font-size: 0.9rem;
+    color: #a0aec0;
+    margin: 4px 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.track-info p.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.track-info p.exit {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+body.light-theme .track-info p {
+    color: #718096;
+}
+
+/* Прогресс-бар */
+.progress-container {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    cursor: pointer;
+    height: 10px;
+    margin: 15px 0;
+    position: relative;
+    width: 100%;
+    transition: background 0.2s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+body.light-theme .progress-container {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.progress-container:hover,
+.progress-container:active {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+body.light-theme .progress-container:hover,
+body.light-theme .progress-container:active {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.progress-bar {
+    background: #2481cc;
+    border-radius: 8px;
+    height: 100%;
+    width: 0%;
+    transition: width 0.1s linear;
+    position: relative;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -2px;
+    width: 14px;
+    height: 14px;
+    background: #2481cc;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: transform 0.2s ease;
+}
+
+.progress-container:active .progress-bar::after {
+    transform: scale(1);
+}
+
+/* Кнопки управления */
+.controls {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.controls button {
+    background: none;
+    border: none;
+    color: #a0aec0;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px;
+    transition: color 0.2s ease, transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body.light-theme .controls button {
+    color: #718096;
+}
+
+.controls button:hover {
+    transform: scale(1.05);
+}
+
+.controls button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+#play {
+    font-size: 28px;
+    color: #ffffff;
+}
+
+body.light-theme #play {
+    color: #000000;
+}
+
+#play.playing {
+    animation: pulse 1.2s infinite cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+#shuffle,
+#repeat {
+    font-size: 16px;
+    position: relative;
+}
+
+/* Убираем синий цвет для всех активных кнопок */
+.quiet-btn.active,
+.controls button.active {
+    color: inherit;
+}
+
+/* Лоадер */
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: #2481cc;
+    display: none;
+    z-index: 1000;
+}
+
+.loader.active {
+    display: block;
+}
+
+/* Затемнение экрана */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    z-index: 999;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Скрытые изображения для предзагрузки */
+.preload-images {
+    display: none;
+}
+
+/* Анимации */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+/* Адаптивность */
+@media (max-width: 400px) {
+    .cover img {
+        width: 100%;
+    }
+
+    .player {
+        padding: 15px;
+    }
+
+    .controls button {
+        font-size: 18px;
+        padding: 8px;
+    }
+
+    #play {
+        font-size: 24px;
+    }
+}

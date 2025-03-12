@@ -1,0 +1,29 @@
+# Environments and secrets
+.env
+venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Node modules
+node_modules/
+
+# Database files
+Server/static/DB/*/track_*/song.mp3
+
+# Log files
+*.log
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo 
