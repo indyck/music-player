@@ -250,6 +250,68 @@ body.light-theme .track-info p {
     color: #718096;
 }
 
+/* Селектор плейлистов (выпадающий список) */
+.playlist-selector {
+    margin: 10px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#playlist-dropdown {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 8px;
+    color: #a0aec0;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 8px 12px;
+    width: 70%;
+    max-width: 200px;
+    appearance: none; /* Убираем стандартную стрелку */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23a0aec0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+body.light-theme #playlist-dropdown {
+    background: rgba(0, 0, 0, 0.05);
+    color: #718096;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+#playlist-dropdown:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+body.light-theme #playlist-dropdown:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+#playlist-dropdown:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+body.light-theme #playlist-dropdown:focus {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+#playlist-dropdown option {
+    background: #2d3748;
+    color: #a0aec0;
+}
+
+body.light-theme #playlist-dropdown option {
+    background: #ffffff;
+    color: #718096;
+}
+
 /* Прогресс-бар */
 .progress-container {
     background: rgba(255, 255, 255, 0.15);
@@ -430,5 +492,10 @@ body.light-theme #play {
 
     #play {
         font-size: 24px;
+    }
+
+    #playlist-dropdown {
+        font-size: 0.9rem;
+        width: 80%;
     }
 }

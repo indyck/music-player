@@ -29,7 +29,8 @@ const elements = {
     loader: document.getElementById('loader'),
     title: document.getElementById('title'),
     artist: document.getElementById('artist'),
-    cover: document.getElementById('cover')
+    cover: document.getElementById('cover'),
+    playlistDropdown: document.getElementById('playlist-dropdown')
 };
 
 // Инициализация аудио
@@ -77,6 +78,34 @@ async function preloadCovers() {
     document.body.appendChild(preloadContainer);
 }
 
+function populatePlaylistDropdown() {
+    elements.playlistDropdown.innerHTML = ''; // Очищаем список
+    state.playlists.forEach((playlist, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = playlist.name;
+        if (index === state.currentPlaylistIndex) {
+            option.selected = true;
+        }
+        elements.playlistDropdown.appendChild(option);
+    });
+}
+
+async function changePlaylist() {
+    const newIndex = parseInt(elements.playlistDropdown.value, 10);
+    if (newIndex === state.currentPlaylistIndex) return;
+    state.currentPlaylistIndex = newIndex;
+    state.currentTrackIndex = 0;
+    if (state.playlists[state.currentPlaylistIndex].tracks.length > 0) {
+        await loadTrack(state.currentTrackIndex);
+    } else {
+        showEmptyPlaylistMessage();
+        audio.pause(); // Останавливаем плеер, если плейлист пуст
+        elements.playButton.innerHTML = '<i class="fas fa-play"></i>';
+        elements.playButton.classList.remove('playing');
+    }
+}
+
 async function initPlayer() {
     const overlay = document.createElement('div');
     overlay.className = 'overlay';
@@ -104,6 +133,9 @@ async function initPlayer() {
         console.log("Плейлисты получены:", state.playlists);
 
         await preloadCovers();
+
+        // Заполняем выпадающий список плейлистов
+        populatePlaylistDropdown();
 
         if (state.playlists[state.currentPlaylistIndex].tracks.length > 0) {
             await loadTrack(state.currentTrackIndex);
@@ -241,7 +273,6 @@ function toggleRepeat() {
     const repeatModes = ['none', 'one', 'all'];
     state.repeatMode = repeatModes[(repeatModes.indexOf(state.repeatMode) + 1) % repeatModes.length];
     
-    // Меняем иконку в зависимости от режима повтора
     if (state.repeatMode === 'none') {
         elements.repeatButton.innerHTML = '<i class="fas fa-arrow-right"></i>';
     } else if (state.repeatMode === 'one') {
@@ -254,7 +285,6 @@ function toggleRepeat() {
 async function toggleShuffle() {
     state.isShuffle = !state.isShuffle;
     
-    // Меняем иконку в зависимости от состояния шафла
     if (state.isShuffle) {
         elements.shuffleButton.innerHTML = '<i class="fas fa-random"></i>';
     } else {
@@ -381,5 +411,8 @@ elements.shareButton.addEventListener('click', async () => {
 });
 
 elements.quietButton.addEventListener('click', toggleQuietMode);
+
+// Добавляем обработчик для смены плейлиста через выпадающий список
+elements.playlistDropdown.addEventListener('change', changePlaylist);
 
 initPlayer();
